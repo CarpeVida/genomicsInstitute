@@ -1,6 +1,7 @@
 import bs4 as bs
 import urllib.request
 
+
 sauce=urllib.request.urlopen('http://genomewiki.ucsc.edu/genecats/index.php/Special:AllPages').read()
 saucePublic = urllib.request.urlopen('http://genomewiki.ucsc.edu/index.php/Special:AllPages').read()
 soupGenecats = bs.BeautifulSoup(sauce,'lxml')
