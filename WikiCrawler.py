@@ -1,3 +1,5 @@
+"""This tool gets every link from a page and pulls the html from each of those links."""
+
 import bs4 as bs
 import urllib.request
 
