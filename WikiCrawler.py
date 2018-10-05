@@ -7,6 +7,7 @@ import ssl
 ssl._create_default_https_context = ssl._create_unverified_context #called monkeypatching
 errorCount = 0
 totalInnerLinkCount = 0
+errorPageDic= {}
 
 # context = ssl._create_unverified_context()
 
@@ -31,7 +32,7 @@ def main():
 
 
     # goes through found links html pages and searches for search terms.
-    for url in pages[0:50]: #remove slice to allow full search
+    for url in pages[0:5]: #remove slice to allow full search
 
         if url == 'None' or 'http' in url or 'www' in url or 'Genecats:Privacy' in url or 'Genecats:About' in url:
             continue
@@ -62,6 +63,7 @@ def recursiveLinkChecker(linkAddress):
     innerLinkCount =0
     for aTag in linkSoup.find_all('a'):
         innerLinkCount += 1
+        errorList = []
         hrefLink = str(aTag.get('href'))
         if hrefLink[0] =='/':
             # print('Internal Link Skipped')
@@ -92,10 +94,13 @@ def recursiveLinkChecker(linkAddress):
             except Exception as error:
                 global errorCount
                 errorCount += 1
+                errorList.append(hrefLink)
                 print(error, " found in below link")
                 print(hrefLink)
+    global errorPageDic
+    errorPageDic= {linkAddress: errorList}
     print(innerLinkCount, "inner links checked")
     global totalInnerLinkCount
     totalInnerLinkCount += innerLinkCount
-
 main()
+print("full display of bad links: ", errorPageDic)
